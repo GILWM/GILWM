@@ -128,6 +128,13 @@ predict2_video2world_training_2b_sam3d_full = _base_experiment(
     sam3d_dataloader,
 )
 
+# Semantic GILWM inference uses the same network structure as training while
+# keeping a separate public experiment name for launchers and documentation.
+predict2_video2world_inference_2b_sam3d = copy.deepcopy(
+    predict2_video2world_training_2b_sam3d_full
+)
+predict2_video2world_inference_2b_sam3d["job"]["name"] = "2b_gilwm_inference"
+
 # Inference must instantiate exactly the same action branch as training.
 # Passing an action H5 alone is insufficient when the selected experiment has
 # action conditioning disabled: the checkpoint's action MLP would otherwise be
@@ -191,6 +198,7 @@ predict2_video2world_training_2b_sam3d_smoke["checkpoint"]["save_iter"] = 10
 cs = ConfigStore.instance()
 for _item in (
     predict2_video2world_training_2b_sam3d_full,
+    predict2_video2world_inference_2b_sam3d,
     predict2_video2world_inference_2b_sam3d_action,
     predict2_video2world_inference_2b_sam3d_action_temporal,
     predict2_video2world_training_2b_sam3d_smoke,

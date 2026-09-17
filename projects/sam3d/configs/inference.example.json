@@ -1,0 +1,16 @@
+{
+  "inference_type": "image2world",
+  "name": "gilwm_example",
+  "input_path": "/path/to/first_frame.png",
+  "sam3d_condition_path": "/path/to/condition.pt",
+  "prompt": "Move the cup onto the green plate.",
+  "resolution": "480,640",
+  "num_output_frames": 93,
+  "fps": 24,
+  "num_steps": 35,
+  "seed": 0,
+  "guidance": 7,
+  "enable_autoregressive": false,
+  "chunk_size": 93,
+  "chunk_overlap": 1
+}
