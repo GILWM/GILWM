@@ -20,14 +20,6 @@ just
 
 ## Test
 
-Run linting and formatting:
-
-```shell
-just lint
-```
-
-This will also run auto-fixes and linting. We recommend that you commit your changes first.
-
 Run level 0 tests:
 
 ```shell
@@ -55,13 +47,6 @@ just test-single <test_name> [--pdb]
 
 # Example
 just test-single "tests/assets_test.py::test_inference_assets[base]"
-```
-
-Generate coverage report:
-
-```shell
-just test-coverage
-just run coverage html
 ```
 
 ## Code Reviews

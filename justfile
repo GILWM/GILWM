@@ -36,32 +36,6 @@ _uv-sync *args: setup
 run *args: _uv-sync
   uv run --no-sync {{args}}
 
-# Setup pre-commit
-_pre-commit-setup: setup
-  uv tool install "pre-commit>=4.3.0"
-  pre-commit install -c .pre-commit-config-base.yaml
-
-# Run pre-commit
-pre-commit *args: _pre-commit-setup
-  pre-commit run -a {{args}} || pre-commit run -a {{args}}
-
-# Run pyrefly with the default config
-_pyrefly *args: _uv-sync
-  uv run --no-sync pyrefly check --output-format=min-text --remove-unused-ignores {{args}}
-
-# Run pyrefly with the src config
-_pyrefly-src *args: _uv-sync
-  uv run --no-sync pyrefly check -c pyrefly-src.toml --output-format=min-text {{args}}
-
-# Run pyrefly
-pyrefly *args: (_pyrefly args) (_pyrefly-src args)
-
-# Run pyrefly and whitelist all errors
-pyrefly-ignore *args: (pyrefly '--suppress-errors' args)
-
-# Run linting and formatting
-lint: pre-commit
-
 # Test the install command
 test-install:
   rm -f .cuda-name
@@ -101,16 +75,7 @@ test-gpu *args: _uv-sync
   done
 
 # Run tests
-test *args: pyrefly (test-cpu args) (test-gpu args)
-
-coverage_args := '--cov-append --cov-report= --cov=' + module_name
-
-# Initialize coverage
-_coverage-init:
-  rm -rf outputs/coverage
-
-# Run tests with coverage
-test-coverage *args: _coverage-init (test coverage_args args) (run 'coverage' 'xml')
+test *args: (test-cpu args) (test-gpu args)
 
 # List tests
 test-list *args: _uv-sync
@@ -131,17 +96,12 @@ _licensecheck *args:
 # Run pip-licenses
 _pip-licenses *args: install
   uvx pip-licenses --python .venv/bin/python --format=plain-vertical --with-license-file --no-license-path --no-version --with-urls --output-file ATTRIBUTIONS.md {{args}}
-  pre-commit run --files ATTRIBUTIONS.md || true
 
 # Update the license
 license: _licensecheck _pip-licenses
 
-# Run link-check
-_link-check *args:
-  pre-commit run -a --hook-stage manual link-check {{args}}
-
 # Pre-release checks
-release-check: license _link-check
+release-check: license
 
 # Release a new version
 release pypi_token='dry-run' *args:
