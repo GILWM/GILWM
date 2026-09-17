@@ -43,9 +43,6 @@ ENV UV_LINK_MODE=copy
 # Ensure installed tools can be executed out of the box
 ENV UV_TOOL_BIN_DIR=/usr/local/bin
 
-# Install just: https://just.systems/man/en/pre-built-binaries.html
-RUN curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin --tag 1.42.4
-
 WORKDIR /workspace
 
 # Install the project's dependencies using the lockfile and settings
@@ -58,11 +55,11 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=packages,target=packages \
     uv sync --locked --no-install-project --extra=${CUDA_NAME}
 
-# Copy the code into the container if in standalone mode. Otherwise, just install the dependencies at runtime.
+# Copy the code into the container if in standalone mode. Otherwise, install the project at runtime.
 # We mount the source code to /tmp and copy it to /workspace if in standalone mode.
 ARG STANDALONE
 RUN --mount=type=bind,source=.,target=/tmp/workspace \
-   if [ "$STANDALONE" = "true" ] ; then cp -r /tmp/workspace/* /workspace && just install && rm -rf /workspace/.git ; else echo "Run just install to install all the dependencies at runtime" ; fi
+   if [ "$STANDALONE" = "true" ] ; then cp -r /tmp/workspace/* /workspace && uv sync --extra=${CUDA_NAME} && rm -rf /workspace/.git ; else echo "Run uv sync --extra=${CUDA_NAME} to install the project at runtime" ; fi
 
 # Place executables in the environment at the front of the path
 ENV PATH="/workspace/.venv/bin:$PATH"

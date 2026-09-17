@@ -36,9 +36,6 @@ RUN --mount=type=cache,target=/var/cache/apt \
         tree \
         wget
 
-# Install just: https://just.systems/man/en/pre-built-binaries.html
-RUN curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin --tag 1.42.4
-
 WORKDIR /workspace
 
 RUN --mount=type=cache,target=/root/.cache/uv \

@@ -4,18 +4,10 @@ We'd love to receive your patches and contributions. Please keep your PRs as dra
 
 ## Setup
 
-Install system dependencies:
-
-[just](https://just.systems/man/en/pre-built-binaries.html#pre-built-binaries)
+Install the project dependencies from the repository root:
 
 ```shell
-uv tool install -U rust-just
-```
-
-To see all available commands, run
-
-```shell
-just
+uv sync --extra=cu128
 ```
 
 ## Test
@@ -23,7 +15,7 @@ just
 Run level 0 tests:
 
 ```shell
-just test
+uv run pytest --num-gpus=0 -n logical --maxprocesses=16 --levels=0
 ```
 
 Test levels (`--levels`):
@@ -37,16 +29,16 @@ Test outputs are saved to `outputs/pytest/<test_name>`. To monitor a test, open 
 List all tests:
 
 ```shell
-just test-list
+uv run pytest --collect-only -q
 ```
 
 Run a single test:
 
 ```shell
-just test-single <test_name> [--pdb]
+uv run pytest --manual --capture=no <test_name> [--pdb]
 
 # Example
-just test-single "tests/assets_test.py::test_inference_assets[base]"
+uv run pytest --manual --capture=no "tests/assets_test.py::test_inference_assets[base]"
 ```
 
 ## Code Reviews

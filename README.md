@@ -171,7 +171,7 @@ assets/demos/
 
 ## License and acknowledgements
 
-This codebase is derived from NVIDIA Cosmos Predict2.5. See [LICENSE](LICENSE) and [ATTRIBUTIONS.md](ATTRIBUTIONS.md) for software licensing and dependency notices. Users must also comply with the licenses and terms for Cosmos Predict2.5, SAM 3, SAM 3D Objects, DINOv2, MoGe, and downloaded assets.
+This codebase is derived from NVIDIA Cosmos Predict2.5. See [LICENSE](LICENSE) for licensing information. Users must also comply with the licenses and terms for Cosmos Predict2.5, SAM 3, SAM 3D Objects, DINOv2, MoGe, and downloaded assets.
 
 ## Citation
 
