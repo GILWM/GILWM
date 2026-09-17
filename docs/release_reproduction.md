@@ -1,6 +1,6 @@
 # GILWM reproduction guide
 
-This document describes the public training and inference path for the single released **GILWM** checkpoint. The WorldArena submission variants associated with this work reuse the same checkpoint and change inference or post-processing; they are not separate released models.
+This document describes the public training and inference path for the released **GILWM** checkpoint.
 
 ## Release scope
 

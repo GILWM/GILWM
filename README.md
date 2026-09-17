@@ -25,20 +25,20 @@ These examples are selected from our self-evaluation on the Balanced50 benchmark
 
 <table>
   <tr>
-    <td width="50%" align="center"><b>Lift the white bottle and lower it onto the pad</b></td>
-    <td width="50%" align="center"><b>Secure two bottles simultaneously</b></td>
+    <td width="50%" align="center"><b>Lift the compact black laptop</b></td>
+    <td width="50%" align="center"><b>Place the mouse onto the electronic scale</b></td>
   </tr>
   <tr>
-    <td><a href="assets/demos/gilwm_episode14.mp4"><img src="assets/demos/gilwm_episode14.webp" width="100%" alt="GT and GILWM prediction for lifting a white bottle"></a></td>
-    <td><a href="assets/demos/gilwm_episode19.mp4"><img src="assets/demos/gilwm_episode19.webp" width="100%" alt="GT and GILWM prediction for securing two bottles"></a></td>
+    <td><a href="assets/demos/gilwm_episode17.mp4"><img src="assets/demos/gilwm_episode17.webp" width="100%" alt="GT and GILWM prediction for lifting a laptop"></a></td>
+    <td><a href="assets/demos/gilwm_episode34.mp4"><img src="assets/demos/gilwm_episode34.webp" width="100%" alt="GT and GILWM prediction for placing a mouse onto a scale"></a></td>
   </tr>
   <tr>
-    <td width="50%" align="center"><b>Move the cup onto the green plate</b></td>
     <td width="50%" align="center"><b>Place the blue bell onto the black stand</b></td>
+    <td width="50%" align="center"><b>Press the center of the blue bell</b></td>
   </tr>
   <tr>
-    <td><a href="assets/demos/gilwm_episode28.mp4"><img src="assets/demos/gilwm_episode28.webp" width="100%" alt="GT and GILWM prediction for moving a cup onto a plate"></a></td>
     <td><a href="assets/demos/gilwm_episode35.mp4"><img src="assets/demos/gilwm_episode35.webp" width="100%" alt="GT and GILWM prediction for placing a bell onto a stand"></a></td>
+    <td><a href="assets/demos/gilwm_episode6.mp4"><img src="assets/demos/gilwm_episode6.webp" width="100%" alt="GT and GILWM prediction for pressing a blue bell"></a></td>
   </tr>
 </table>
 
@@ -49,7 +49,9 @@ These examples are selected from our self-evaluation on the Balanced50 benchmark
 | Task | Structure-conditioned image-to-video prediction |
 | Domain | Robot manipulation and embodied interaction |
 | Backbone | Cosmos Predict2.5 2B Video2World |
-| Native output | 93 frames at 640 × 480 |
+| Training clip / AR chunk | 93 frames |
+| Output resolution | 640 × 480 |
+| Output length | Configurable through autoregressive chunks |
 | Checkpoint | Consolidated bf16 PyTorch EMA state dict |
 | Model file | `model_ema_bf16.pt` |
 
@@ -120,7 +122,7 @@ Copy the example request and replace the first-frame and `condition.pt` paths:
 cp projects/sam3d/configs/inference.example.json /path/to/gilwm_input.json
 ```
 
-Configure the MUSA runtime and run native 93-frame inference:
+Configure the MUSA runtime and run one 93-frame inference chunk:
 
 ```bash
 export COSMOS_PROJECT="$PWD"
@@ -166,10 +168,6 @@ projects/sam3d/
 tests/sam3d/
 assets/demos/
 ```
-
-## Evaluation note
-
-The four WorldArena submissions associated with this work use the same GILWM checkpoint and differ only in inference or post-processing settings, including frame-count matching, two-chunk autoregressive generation, and refinement. They should not be interpreted as four separately trained models.
 
 ## License and acknowledgements
 
